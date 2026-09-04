@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="appNavigation" class="mb-8 rounded-2xl border border-slate-800 bg-slate-900/80 p-4">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="flex flex-wrap items-center gap-3">
+            <a th:href="@{/}" class="font-black text-white hover:text-cyan-300">PetMatch Community</a>
+            <a th:href="@{/pets}" class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white">Mis mascotas</a>
+            <a th:href="@{/support-requests}" class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white">Solicitudes abiertas</a>
+            <a th:href="@{/support-requests/mine}" class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white">Mis solicitudes</a>
+            <a th:href="@{/support-applications/mine}" class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white">Mis postulaciones</a>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3" sec:authorize="isAuthenticated()">
+            <span class="text-sm text-slate-500" sec:authentication="name"></span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

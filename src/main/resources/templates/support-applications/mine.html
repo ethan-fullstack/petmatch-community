@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Mis postulaciones | PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+<main class="mx-auto max-w-5xl px-6 py-10">
+    <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+    <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.2em] text-cyan-300">PetMatch Community</p>
+            <h1 class="mt-2 text-4xl font-black">Mis postulaciones</h1>
+        </div>
+        <a th:href="@{/support-requests}" class="rounded-xl border border-slate-700 px-4 py-2 font-semibold hover:bg-slate-900">Solicitudes abiertas</a>
+    </div>
+
+    <div class="mt-6" th:replace="~{fragments/alerts :: alerts}"></div>
+
+    <section class="mt-8 space-y-4">
+        <article th:each="supportApplication : ${applications}" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <p class="text-sm text-slate-400">Solicitud para <strong class="text-slate-200" th:text="${supportApplication.supportRequest.pet.name}"></strong></p>
+                    <a th:href="@{/support-requests/{id}(id=${supportApplication.supportRequest.id})}" class="mt-1 block text-xl font-bold text-white hover:text-cyan-300" th:text="${supportApplication.supportRequest.title}"></a>
+                    <p class="mt-3 whitespace-pre-line text-slate-400" th:text="${supportApplication.message != null ? supportApplication.message : 'Sin mensaje adicional.'}"></p>
+                </div>
+
+                <span th:if="${supportApplication.status.name() == 'ACCEPTED'}" class="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">ACCEPTED</span>
+                <span th:if="${supportApplication.status.name() == 'REJECTED'}" class="rounded-full bg-rose-400/10 px-3 py-1 text-xs font-bold text-rose-300">REJECTED</span>
+                <span th:if="${supportApplication.status.name() == 'PENDING'}" class="rounded-full bg-amber-400/10 px-3 py-1 text-xs font-bold text-amber-300">PENDING</span>
+            </div>
+        </article>
+
+        <div th:if="${#lists.isEmpty(applications)}" class="rounded-2xl border border-dashed border-slate-700 p-10 text-center text-slate-400">Aún no tienes postulaciones.</div>
+    </section>
+</main>
+</body>
+</html>

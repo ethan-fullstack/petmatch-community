@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Postulaciones recibidas | PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+<main class="mx-auto max-w-5xl px-6 py-10">
+    <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+    <div>
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-cyan-300">Postulaciones recibidas</p>
+        <h1 class="mt-2 text-4xl font-black" th:text="${request.title}"></h1>
+    </div>
+
+    <section class="mt-8 space-y-4">
+        <article th:each="supportApplication : ${applications}" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+            <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <p class="text-lg font-bold text-white" th:text="${supportApplication.applicant.name}"></p>
+                    <p class="text-sm text-slate-500" th:text="${supportApplication.applicant.email}"></p>
+                    <p class="mt-4 whitespace-pre-line text-slate-300" th:text="${supportApplication.message != null ? supportApplication.message : 'Sin mensaje adicional.'}"></p>
+                </div>
+
+                <span th:if="${supportApplication.status.name() == 'ACCEPTED'}" class="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">ACCEPTED</span>
+                <span th:if="${supportApplication.status.name() == 'REJECTED'}" class="rounded-full bg-rose-400/10 px-3 py-1 text-xs font-bold text-rose-300">REJECTED</span>
+                <span th:if="${supportApplication.status.name() == 'PENDING'}" class="rounded-full bg-amber-400/10 px-3 py-1 text-xs font-bold text-amber-300">PENDING</span>
+            </div>
+
+            <div th:if="${request.status.name() == 'OPEN' and supportApplication.status.name() == 'PENDING'}" class="mt-5 flex flex-wrap gap-3 border-t border-slate-800 pt-5">
+                <form th:action="@{/support-applications/{id}/accept(id=${supportApplication.id})}" method="post">
+                    <button type="submit" class="rounded-xl bg-emerald-400 px-4 py-2 font-bold text-slate-950 hover:bg-emerald-300">Aceptar</button>
+                </form>
+                <form th:action="@{/support-applications/{id}/reject(id=${supportApplication.id})}" method="post">
+                    <button type="submit" class="rounded-xl border border-rose-400/30 px-4 py-2 font-semibold text-rose-300 hover:bg-rose-400/10">Rechazar</button>
+                </form>
+            </div>
+        </article>
+
+        <div th:if="${#lists.isEmpty(applications)}" class="rounded-2xl border border-dashed border-slate-700 p-10 text-center text-slate-400">Todavía no hay postulaciones para esta solicitud.</div>
+    </section>
+</main>
+</body>
+</html>

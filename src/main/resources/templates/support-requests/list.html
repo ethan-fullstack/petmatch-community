@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Solicitudes abiertas | PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto max-w-6xl px-6 py-10">
+        <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+        <header class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+                <h1 class="text-4xl font-black text-white">Solicitudes abiertas</h1>
+                <p class="mt-2 text-slate-400">Explora necesidades de apoyo publicadas por la comunidad.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a th:href="@{/support-requests/mine}" class="rounded-xl border border-slate-700 px-4 py-2 font-semibold hover:bg-slate-900">Mis solicitudes</a>
+                <a th:href="@{/support-requests/new}" class="rounded-xl bg-cyan-400 px-4 py-2 font-bold text-slate-950 hover:bg-cyan-300">Nueva solicitud</a>
+            </div>
+        </header>
+
+        <section class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3" th:if="${!requests.isEmpty()}">
+            <article th:each="request : ${requests}" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-cyan-300" th:text="${request.pet.name}"></p>
+                        <h2 class="mt-2 text-xl font-black text-white" th:text="${request.title}"></h2>
+                    </div>
+                    <span class="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">ABIERTA</span>
+                </div>
+
+                <p class="mt-4 line-clamp-3 text-sm leading-6 text-slate-400" th:text="${request.description}"></p>
+
+                <dl class="mt-5 space-y-2 text-sm">
+                    <div class="flex justify-between gap-4"><dt class="text-slate-500">Tipo</dt><dd class="font-semibold text-slate-200" th:text="${request.supportType}"></dd></div>
+                    <div class="flex justify-between gap-4"><dt class="text-slate-500">Fecha</dt><dd class="font-semibold text-slate-200" th:text="${request.serviceDate}"></dd></div>
+                    <div class="flex justify-between gap-4"><dt class="text-slate-500">Publicado por</dt><dd class="font-semibold text-slate-200" th:text="${request.owner.name}"></dd></div>
+                </dl>
+
+                <a th:href="@{/support-requests/{id}(id=${request.id})}" class="mt-6 inline-flex font-bold text-cyan-300 hover:text-cyan-200">Ver solicitud →</a>
+            </article>
+        </section>
+
+        <section th:if="${requests.isEmpty()}" class="mt-8 rounded-3xl border border-dashed border-slate-700 bg-slate-900/50 p-12 text-center">
+            <p class="text-5xl">🐾</p>
+            <h2 class="mt-4 text-2xl font-black text-white">No hay solicitudes abiertas</h2>
+            <p class="mt-2 text-slate-400">Puedes publicar la primera solicitud de apoyo para una de tus mascotas.</p>
+        </section>
+    </main>
+</body>
+</html>

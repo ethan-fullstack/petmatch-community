@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: head('PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto flex min-h-screen max-w-6xl items-center px-6 py-16">
+        <section class="grid w-full gap-10 lg:grid-cols-[1.4fr_0.6fr] lg:items-center">
+            <div>
+                <span class="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-300">PetMatch Community</span>
+
+                <h1 class="mt-6 max-w-4xl text-4xl font-black tracking-tight text-white sm:text-6xl">Apoyo comunitario para el cuidado temporal de mascotas</h1>
+
+                <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Publica solicitudes de apoyo y conecta con personas de tu comunidad dispuestas a ayudar con el cuidado temporal de una mascota.</p>
+
+                <div class="mt-8 flex flex-wrap items-center gap-4" sec:authorize="isAnonymous()">
+                    <a th:href="@{/register}" class="rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300">Crear cuenta</a>
+                    <a th:href="@{/login}" class="rounded-xl border border-slate-700 px-5 py-3 font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-900">Iniciar sesión</a>
+                </div>
+
+                <div class="mt-8 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-5" sec:authorize="isAuthenticated()">
+                    <p class="text-emerald-100">Sesión iniciada como <strong sec:authentication="name"></strong>.</p>
+                    <div class="mt-4 flex flex-wrap gap-3">
+                        <a th:href="@{/pets}" class="rounded-xl bg-cyan-400 px-4 py-2 font-bold text-slate-950 transition hover:bg-cyan-300">Mis mascotas</a>
+                        <a th:href="@{/support-requests}" class="rounded-xl border border-cyan-300/30 px-4 py-2 font-semibold text-cyan-100 transition hover:bg-cyan-300/10">Solicitudes abiertas</a>
+                        <a th:href="@{/support-requests/mine}" class="rounded-xl border border-slate-600 px-4 py-2 font-semibold text-slate-200 transition hover:bg-slate-800">Mis solicitudes</a>
+                        <a th:href="@{/support-applications/mine}" class="rounded-xl border border-slate-600 px-4 py-2 font-semibold text-slate-200 transition hover:bg-slate-800">Mis postulaciones</a>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="rounded-xl border border-emerald-300/30 px-4 py-2 font-semibold text-emerald-100 transition hover:bg-emerald-300/10">Cerrar sesión</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-cyan-950/20 backdrop-blur">
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">Ejemplo de comunidad</p>
+                <div class="mt-5 space-y-4">
+                    <article class="rounded-2xl bg-slate-800/80 p-4"><p class="font-bold text-white">🐕 Paseo para Luna</p><p class="mt-1 text-sm text-slate-400">Se necesita apoyo durante la tarde.</p></article>
+                    <article class="rounded-2xl bg-slate-800/80 p-4"><p class="font-bold text-white">🐈 Cuidado temporal para Milo</p><p class="mt-1 text-sm text-slate-400">Acompañamiento por unas horas.</p></article>
+                    <article class="rounded-2xl bg-slate-800/80 p-4"><p class="font-bold text-white">🐾 Personas ayudando personas</p><p class="mt-1 text-sm text-slate-400">Una demo para explorar Spring Boot, Thymeleaf y Tailwind CSS.</p></article>
+                </div>
+            </aside>
+        </section>
+    </main>
+</body>
+</html>

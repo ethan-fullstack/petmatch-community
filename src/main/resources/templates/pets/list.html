@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Mis mascotas | PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto max-w-6xl px-6 py-10">
+        <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+        <header class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-4xl font-black tracking-tight text-white">Mis mascotas</h1>
+                <p class="mt-2 text-slate-400">Gestiona las mascotas que podrán asociarse a solicitudes de apoyo.</p>
+            </div>
+            <a th:href="@{/pets/new}" class="rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300">Registrar mascota</a>
+        </header>
+
+        <div class="mt-8" th:replace="~{fragments/alerts :: alerts}"></div>
+
+        <section th:if="${#lists.isEmpty(pets)}" class="mt-10 rounded-3xl border border-dashed border-slate-700 bg-slate-900/50 p-10 text-center">
+            <div class="text-5xl">🐾</div>
+            <h2 class="mt-4 text-2xl font-bold text-white">Aún no tienes mascotas registradas</h2>
+            <p class="mt-2 text-slate-400">Registra la primera para comenzar a construir el flujo de PetMatch.</p>
+            <a th:href="@{/pets/new}" class="mt-6 inline-flex rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 hover:bg-cyan-300">Registrar mascota</a>
+        </section>
+
+        <section th:unless="${#lists.isEmpty(pets)}" class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <article th:each="pet : ${pets}" class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-lg shadow-black/20">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <span class="rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-cyan-300" th:text="${pet.species}"></span>
+                        <h2 class="mt-4 text-2xl font-bold text-white" th:text="${pet.name}"></h2>
+                    </div>
+                    <span class="text-3xl">🐾</span>
+                </div>
+                <p class="mt-3 text-sm text-slate-400"><span th:text="${pet.age}"></span> años</p>
+                <p class="mt-4 line-clamp-3 text-slate-300" th:text="${pet.description != null ? pet.description : 'Sin descripción adicional.'}"></p>
+                <div class="mt-6 flex gap-3">
+                    <a th:href="@{/pets/{id}(id=${pet.id})}" class="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700">Ver detalle</a>
+                    <a th:href="@{/pets/{id}/edit(id=${pet.id})}" class="rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-300 hover:bg-slate-800">Editar</a>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

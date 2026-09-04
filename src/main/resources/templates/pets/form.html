@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${editing ? 'Editar mascota | PetMatch Community' : 'Registrar mascota | PetMatch Community'})}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto max-w-3xl px-6 py-10">
+        <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+        <section class="rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl shadow-black/20 sm:p-8">
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300" th:text="${editing ? 'Actualizar mascota' : 'Nueva mascota'}"></p>
+            <h1 class="mt-3 text-3xl font-black text-white" th:text="${editing ? 'Editar información' : 'Registrar mascota'}"></h1>
+            <p class="mt-2 text-slate-400">Estos datos se usarán al crear solicitudes de apoyo.</p>
+
+            <form th:action="${editing} ? @{/pets/{id}(id=${pet.id})} : @{/pets}" th:object="${petForm}" method="post" class="mt-8 space-y-6">
+                <div>
+                    <label for="name" class="mb-2 block text-sm font-bold text-slate-200">Nombre</label>
+                    <input id="name" type="text" th:field="*{name}" maxlength="100" class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400">
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="mt-2 text-sm text-rose-300"></p>
+                </div>
+
+                <div>
+                    <label for="species" class="mb-2 block text-sm font-bold text-slate-200">Especie</label>
+                    <input id="species" type="text" th:field="*{species}" maxlength="80" placeholder="Ej. Perro, gato, conejo" class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400">
+                    <p th:if="${#fields.hasErrors('species')}" th:errors="*{species}" class="mt-2 text-sm text-rose-300"></p>
+                </div>
+
+                <div>
+                    <label for="age" class="mb-2 block text-sm font-bold text-slate-200">Edad</label>
+                    <input id="age" type="number" min="0" th:field="*{age}" class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400">
+                    <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="mt-2 text-sm text-rose-300"></p>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between gap-4">
+                        <label for="description" class="block text-sm font-bold text-slate-200">Descripción</label>
+                        <span class="text-xs text-slate-500">Opcional · máximo 1000 caracteres</span>
+                    </div>
+                    <textarea id="description" th:field="*{description}" maxlength="1000" rows="5" class="mt-2 w-full resize-y rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-cyan-400" placeholder="Personalidad, cuidados especiales o información útil."></textarea>
+                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="mt-2 text-sm text-rose-300"></p>
+                </div>
+
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <button type="submit" class="rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300" th:text="${editing ? 'Guardar cambios' : 'Registrar mascota'}"></button>
+                    <a th:href="${editing} ? @{/pets/{id}(id=${pet.id})} : @{/pets}" class="rounded-xl border border-slate-700 px-5 py-3 font-semibold text-slate-300 transition hover:bg-slate-800">Cancelar</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

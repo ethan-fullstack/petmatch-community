@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Mis solicitudes | PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto max-w-6xl px-6 py-10">
+        <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+        <header class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+                <h1 class="text-4xl font-black text-white">Mis solicitudes</h1>
+                <p class="mt-2 text-slate-400">Consulta el estado de las solicitudes que has publicado.</p>
+            </div>
+            <a th:href="@{/support-requests/new}" class="rounded-xl bg-cyan-400 px-4 py-2 font-bold text-slate-950 hover:bg-cyan-300">Nueva solicitud</a>
+        </header>
+
+        <div class="mt-6" th:replace="~{fragments/alerts :: alerts}"></div>
+
+        <section class="mt-8 space-y-4" th:if="${!requests.isEmpty()}">
+            <article th:each="request : ${requests}" class="rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+                <div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <h2 class="text-xl font-black text-white" th:text="${request.title}"></h2>
+                        <span class="rounded-full bg-slate-800 px-3 py-1 text-xs font-bold text-slate-300" th:text="${request.status}"></span>
+                    </div>
+                    <p class="mt-2 text-sm text-slate-400"><span th:text="${request.pet.name}"></span> · <span th:text="${request.supportType}"></span></p>
+                    <p class="mt-1 text-sm text-slate-500" th:text="${request.serviceDate}"></p>
+                </div>
+                <a th:href="@{/support-requests/{id}(id=${request.id})}" class="mt-4 inline-flex font-bold text-cyan-300 hover:text-cyan-200 sm:mt-0">Ver detalle →</a>
+            </article>
+        </section>
+
+        <section th:if="${requests.isEmpty()}" class="mt-8 rounded-3xl border border-dashed border-slate-700 bg-slate-900/50 p-12 text-center">
+            <p class="text-5xl">📣</p>
+            <h2 class="mt-4 text-2xl font-black text-white">Aún no has publicado solicitudes</h2>
+            <p class="mt-2 text-slate-400">Crea una solicitud para pedir apoyo con una de tus mascotas.</p>
+        </section>
+    </main>
+</body>
+</html>

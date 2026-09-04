@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Recurso no encontrado | PetMatch Community')}"></head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+    <main class="mx-auto flex min-h-screen max-w-3xl items-center px-6 py-16">
+        <section class="w-full rounded-3xl border border-slate-800 bg-slate-900 p-8 text-center sm:p-12">
+            <p class="text-sm font-bold uppercase tracking-[0.25em] text-cyan-300">Error 404</p>
+            <div class="mt-5 text-7xl">🐾</div>
+            <h1 class="mt-5 text-4xl font-black text-white">No encontramos ese recurso</h1>
+            <p class="mx-auto mt-4 max-w-xl leading-7 text-slate-400">El contenido puede no existir, haber cambiado de estado o no estar disponible para tu cuenta.</p>
+            <a th:href="@{/}" class="mt-8 inline-flex rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 hover:bg-cyan-300">Volver al inicio</a>
+        </section>
+    </main>
+</body>
+</html>
