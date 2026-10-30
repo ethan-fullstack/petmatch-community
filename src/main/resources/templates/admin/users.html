@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Usuarios | PetMatch Community')}"></head>
+<body class="pm-page bg-slate-950 text-slate-100">
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<main id="main-content" tabindex="-1" class="pm-shell">
+    <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+    <header class="pm-admin-header">
+        <div>
+            <span class="pm-eyebrow">Panel de administración</span>
+            <h1 class="pm-admin-title">Administrar usuarios</h1>
+            <p class="pm-admin-description">Gestiona los roles de los integrantes de PetMatch. Los cambios requieren iniciar sesión de nuevo y siempre debe existir al menos un administrador activo.</p>
+        </div>
+        <span class="pm-admin-symbol" aria-hidden="true">👥</span>
+    </header>
+
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <section class="pm-panel" aria-labelledby="users-heading">
+        <div class="pm-panel__header">
+            <div>
+                <h2 class="pm-panel__heading" id="users-heading">Usuarios registrados</h2>
+                <p class="pm-panel__subtitle">Permisos y estado actual de cada cuenta</p>
+            </div>
+            <span class="pm-count" th:text="|${users.totalElements} usuarios|">0 usuarios</span>
+        </div>
+
+        <div class="pm-table-wrap" th:if="${!users.empty}">
+            <table class="pm-table">
+                <caption class="pm-sr-only">Usuarios y permisos persistidos</caption>
+                <thead>
+                    <tr><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Rol / estado</th><th scope="col">Cambiar rol</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u : ${users}">
+                        <td class="pm-table__primary" th:text="${u.name}">Nombre</td>
+                        <td class="pm-table__secondary" th:text="${u.email}">correo@example.com</td>
+                        <td>
+                            <span class="pm-badge" th:classappend="${u.role.name() == 'ADMIN'} ? ' pm-badge--admin' : ' pm-badge--muted'" th:text="${u.role}">USER</span>
+                            <span class="pm-status" th:classappend="${!u.active} ? ' pm-status--inactive' : ''" th:text="${u.active ? 'Activo' : 'Inactivo'}">Activo</span>
+                        </td>
+                        <td>
+                            <form class="pm-role-form" th:action="@{/admin/users/{id}/role(id=${u.id})}" method="post">
+                                <label class="pm-sr-only" th:for="${'role-' + u.id}" th:text="${'Rol de ' + u.name}">Rol de usuario</label>
+                                <select class="pm-input" name="role" th:id="${'role-' + u.id}">
+                                    <option th:each="r : ${roles}" th:value="${r}" th:text="${r}" th:selected="${r == u.role}"></option>
+                                </select>
+                                <button type="submit" class="pm-button pm-button--secondary" th:aria-label="${'Guardar rol de ' + u.name}">Guardar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pm-empty" th:if="${users.empty}">
+            <span class="pm-empty__icon" aria-hidden="true">👤</span>
+            <p class="pm-empty__title">No hay usuarios en esta página</p>
+            <p>Prueba con otra página de resultados.</p>
+        </div>
+        <nav aria-label="Páginas de usuarios" class="pm-pagination" th:if="${users.totalPages > 1}">
+            <span th:text="|Página ${users.number + 1} de ${users.totalPages}|">Paginación</span>
+            <div class="pm-pagination__actions">
+                <a class="pm-link" th:if="${users.hasPrevious()}" th:href="@{/admin/users(page=${users.number - 1})}">← Anterior</a>
+                <a class="pm-link" th:if="${users.hasNext()}" th:href="@{/admin/users(page=${users.number + 1})}">Siguiente →</a>
+            </div>
+        </nav>
+    </section>
+</main>
+</body>
+</html>

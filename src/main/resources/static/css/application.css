@@ -1,0 +1,123 @@
+/* Local styles for the shared navigation and administrative views.
+   These screens remain styled even if the Tailwind browser CDN is unavailable. */
+.pm-page {
+    margin: 0;
+    min-height: 100vh;
+    background: #020617;
+    color: #e2e8f0;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+}
+.pm-page *, .pm-page *::before, .pm-page *::after, .pm-nav *, .pm-nav *::before, .pm-nav *::after { box-sizing: border-box; }
+.pm-shell { width: min(100% - 2rem, 72rem); margin: 0 auto; padding: 2rem 0 4rem; }
+.pm-page a { color: inherit; }
+.pm-page button, .pm-page input, .pm-page select { font: inherit; }
+.pm-page h1, .pm-page h2, .pm-page p { margin-top: 0; }
+
+/* Shared navigation. The account and brand have their own row so menu links
+   never compete with the sign-out button for horizontal space. */
+.pm-nav {
+    margin-bottom: 2rem;
+    padding: 1.1rem 1.35rem;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 1.15rem;
+    background: #0f172a;
+    box-shadow: 0 12px 28px rgb(0 0 0 / 12%);
+}
+.pm-nav__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .85rem 1.5rem; }
+.pm-nav__brand { display: inline-flex; align-items: center; gap: .6rem; color: #f8fafc !important; font-weight: 800; font-size: 1.15rem; text-decoration: none; }
+.pm-nav__brand:hover { color: #67e8f9 !important; }
+.pm-nav__mark { font-size: 1.4rem; }
+.pm-nav__account { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; font-size: .875rem; color: #94a3b8; }
+.pm-nav__account form { margin: 0; }
+.pm-nav__logout { padding: .5rem .8rem; border: 1px solid #475569; border-radius: .65rem; background: transparent; color: #e2e8f0; cursor: pointer; }
+.pm-nav__logout:hover { background: #1e293b; }
+.pm-nav__links { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; padding-top: 1rem; margin-top: 1rem; border-top: 1px solid #334155; }
+.pm-nav__link { display: inline-flex; align-items: center; padding: .52rem .72rem; border-radius: .6rem; text-decoration: none; font-size: .9rem; font-weight: 650; color: #cbd5e1 !important; white-space: nowrap; }
+.pm-nav__link:hover { background: #1e293b; color: #fff !important; }
+.pm-nav__admin { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; margin-left: auto; padding-left: .85rem; border-left: 1px solid #475569; }
+.pm-nav__admin-label { margin-right: .15rem; font-size: .69rem; letter-spacing: .08em; text-transform: uppercase; color: #67e8f9; font-weight: 800; }
+.pm-nav__link--admin { color: #a5f3fc !important; }
+@media (max-width: 900px) {
+    .pm-nav__admin { margin-left: 0; padding-left: 0; border-left: 0; width: 100%; padding-top: .6rem; border-top: 1px dashed #334155; }
+}
+@media (max-width: 520px) {
+    .pm-shell { width: min(100% - 1.5rem, 72rem); }
+    .pm-nav { padding: .9rem; }
+    .pm-nav__top { align-items: flex-start; }
+    .pm-nav__account { justify-content: space-between; width: 100%; }
+    .pm-nav__links { gap: .25rem; }
+    .pm-nav__link { padding: .48rem .55rem; font-size: .85rem; white-space: normal; }
+}
+
+/* Administrative screens. Scoped so forms in other feature areas are untouched. */
+.pm-admin-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.8rem; }
+.pm-eyebrow { display: inline-block; margin-bottom: .65rem; font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #67e8f9; }
+.pm-admin-title { margin: 0 0 .4rem; font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.15; font-weight: 800; color: #f8fafc; letter-spacing: -.025em; }
+.pm-admin-description { max-width: 46rem; margin-bottom: 0; color: #94a3b8; }
+.pm-admin-symbol { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; flex: 0 0 auto; border: 1px solid #155e75; border-radius: 1rem; background: #083344; font-size: 1.7rem; }
+.pm-panel { margin-bottom: 1.5rem; border: 1px solid #334155; border-radius: 1.15rem; background: #0f172a; box-shadow: 0 10px 30px rgb(0 0 0 / 10%); overflow: hidden; }
+.pm-panel__header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .75rem; padding: 1.4rem 1.5rem; border-bottom: 1px solid #334155; }
+.pm-panel__heading { margin: 0; font-size: 1.2rem; font-weight: 750; color: #f8fafc; }
+.pm-panel__subtitle { margin: .25rem 0 0; font-size: .875rem; color: #94a3b8; }
+.pm-panel__body { padding: 1.5rem; }
+.pm-count { display: inline-flex; align-items: center; padding: .3rem .7rem; border-radius: 999px; color: #a5f3fc; background: #164e63; font-size: .8rem; font-weight: 700; }
+.pm-table-wrap { overflow-x: auto; }
+.pm-table { width: 100%; border-collapse: collapse; min-width: 700px; text-align: left; }
+.pm-table caption { text-align: left; }
+.pm-table thead { background: #1e293b; }
+.pm-table th { padding: .9rem 1.1rem; color: #94a3b8; font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.pm-table td { padding: 1rem 1.1rem; border-top: 1px solid #253449; color: #e2e8f0; vertical-align: middle; font-size: .9rem; }
+.pm-table tbody tr:hover { background: #172338; }
+.pm-table__primary { color: #f8fafc; font-weight: 700; }
+.pm-table__secondary { color: #94a3b8; }
+.pm-badge { display: inline-flex; padding: .25rem .6rem; border-radius: 999px; font-size: .73rem; font-weight: 750; letter-spacing: .02em; }
+.pm-badge--admin { color: #a5f3fc; background: #164e63; }
+.pm-badge--muted { color: #cbd5e1; background: #334155; }
+.pm-status { font-size: .8rem; color: #6ee7b7; }
+.pm-status--inactive { color: #fda4af; }
+.pm-role-form { display: flex; align-items: center; flex-wrap: wrap; gap: .55rem; }
+.pm-input { display: block; width: 100%; padding: .67rem .8rem; color: #f8fafc; border: 1px solid #475569; border-radius: .7rem; background: #020617; color-scheme: dark; min-height: 2.7rem; }
+.pm-input:focus { border-color: #22d3ee; }
+.pm-role-form .pm-input { width: auto; min-width: 7rem; }
+.pm-label { display: block; margin-bottom: .4rem; font-size: .875rem; font-weight: 650; color: #cbd5e1; }
+.pm-button { display: inline-flex; align-items: center; justify-content: center; min-height: 2.7rem; padding: .65rem 1rem; border-radius: .7rem; border: 1px solid #475569; font-size: .875rem; font-weight: 750; text-decoration: none; cursor: pointer; }
+.pm-button--primary { background: #22d3ee; border-color: #22d3ee; color: #082f49 !important; }
+.pm-button--primary:hover { background: #67e8f9; }
+.pm-button--secondary { background: #1e293b; color: #e2e8f0 !important; }
+.pm-button--secondary:hover { background: #334155; }
+.pm-link { color: #67e8f9 !important; font-weight: 650; text-decoration: none; }
+.pm-link:hover { text-decoration: underline; }
+.pm-pagination { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.5rem; border-top: 1px solid #334155; color: #94a3b8; font-size: .875rem; }
+.pm-pagination__actions { display: flex; flex-wrap: wrap; gap: .9rem; }
+.pm-empty { padding: 2.5rem 1.5rem; text-align: center; color: #94a3b8; }
+.pm-empty__icon { display: block; margin-bottom: .65rem; font-size: 2rem; }
+.pm-empty__title { margin: 0 0 .3rem; color: #f8fafc; font-weight: 750; font-size: 1.05rem; }
+.pm-filter-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+.pm-filter-field { min-width: 0; }
+.pm-filter-actions { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .75rem; }
+.pm-filter-actions .pm-button { margin-top: auto; }
+.pm-filter-help { margin: 0 0 1.25rem; font-size: .82rem; color: #94a3b8; }
+.pm-error { padding: 1rem; margin-bottom: 1.1rem; border: 1px solid #be123c; border-radius: .7rem; background: #4c0519; color: #fecdd3; }
+.pm-error ul { margin: .4rem 0 0; padding-left: 1.25rem; }
+.pm-results-meta { margin: 0; color: #cbd5e1; font-size: .875rem; }
+.pm-results-meta strong { color: #f8fafc; }
+.pm-summary-list { display: flex; flex-wrap: wrap; gap: .6rem; list-style: none; margin: 0; padding: 1rem 1.5rem; border-bottom: 1px solid #334155; }
+.pm-summary-list li { border: 1px solid #334155; background: #1e293b; padding: .5rem .85rem; border-radius: .7rem; font-size: .85rem; color: #cbd5e1; }
+.pm-summary-list strong { color: #67e8f9; margin-left: .3rem; }
+.pm-sr-only { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; }
+@media (max-width: 800px) { .pm-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) {
+    .pm-filter-grid { grid-template-columns: 1fr; }
+    .pm-panel__body, .pm-panel__header { padding: 1.1rem; }
+    .pm-admin-symbol { display: none; }
+    .pm-pagination { align-items: flex-start; flex-direction: column; }
+}
+
+.pm-export-actions { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; }
+.pm-export-actions .pm-results-meta { margin-right:auto; }
+
+/* The current section remains identifiable without relying solely on color. */
+.pm-nav__link--active { text-decoration: underline; text-underline-offset: .3em; background: #164e63; color: #f8fafc !important; }
+html[data-theme="light"] .pm-nav__link--active { background: #cffafe; color: #155e75 !important; }

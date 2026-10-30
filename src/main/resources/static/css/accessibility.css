@@ -1,0 +1,6 @@
+/* Focus remains visible even when a component suppresses the default outline. */
+:focus-visible { outline: 3px solid #22d3ee !important; outline-offset: 3px; }
+input,select,textarea,button { font: inherit; }
+th,td { padding: .6rem; vertical-align: top; }
+.skip-link { position:absolute; left:-10000px; }
+.skip-link:focus { left:1rem; top:1rem; background:#0f172a; color:#fff; padding:1rem; z-index:100; }

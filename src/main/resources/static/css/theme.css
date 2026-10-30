@@ -1,0 +1,127 @@
+/* Light theme: preserve the dark interface as the default while honoring system preferences.
+   Only semantic surfaces and the Tailwind utilities used by the templates are overridden. */
+:root { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="light"] body,
+html[data-theme="light"] .pm-page,
+html[data-theme="light"] .bg-slate-950 {
+    background-color: #f8fafc !important;
+    color: #0f172a;
+}
+html[data-theme="light"] .bg-slate-900,
+html[data-theme="light"] [class~="bg-slate-900/50"],
+html[data-theme="light"] [class~="bg-slate-900/70"],
+html[data-theme="light"] [class~="bg-slate-900/80"],
+html[data-theme="light"] .pm-panel,
+html[data-theme="light"] .pm-nav {
+    background-color: #ffffff !important;
+}
+html[data-theme="light"] .bg-slate-800,
+html[data-theme="light"] [class~="bg-slate-800/80"],
+html[data-theme="light"] .pm-summary-list li,
+html[data-theme="light"] .pm-table thead {
+    background-color: #e2e8f0 !important;
+}
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-slate-100,
+html[data-theme="light"] .pm-admin-title,
+html[data-theme="light"] .pm-panel__heading,
+html[data-theme="light"] .pm-table__primary,
+html[data-theme="light"] .pm-empty__title,
+html[data-theme="light"] .pm-results-meta strong,
+html[data-theme="light"] .pm-nav__brand {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .text-slate-200,
+html[data-theme="light"] .text-slate-300,
+html[data-theme="light"] .pm-label,
+html[data-theme="light"] .pm-table td,
+html[data-theme="light"] .pm-results-meta,
+html[data-theme="light"] .pm-nav__link,
+html[data-theme="light"] .pm-nav__account {
+    color: #334155 !important;
+}
+html[data-theme="light"] .text-slate-400,
+html[data-theme="light"] .pm-admin-description,
+html[data-theme="light"] .pm-panel__subtitle,
+html[data-theme="light"] .pm-table__secondary,
+html[data-theme="light"] .pm-filter-help,
+html[data-theme="light"] .pm-pagination {
+    color: #475569 !important;
+}
+html[data-theme="light"] .text-cyan-300,
+html[data-theme="light"] .pm-eyebrow,
+html[data-theme="light"] .pm-link,
+html[data-theme="light"] .pm-nav__admin-label {
+    color: #0e7490 !important;
+}
+html[data-theme="light"] .text-emerald-100 { color: #065f46 !important; }
+html[data-theme="light"] .text-rose-100,
+html[data-theme="light"] .text-rose-300 { color: #9f1239 !important; }
+html[data-theme="light"] .border-slate-700,
+html[data-theme="light"] .border-slate-800,
+html[data-theme="light"] .pm-panel,
+html[data-theme="light"] .pm-nav,
+html[data-theme="light"] .pm-input,
+html[data-theme="light"] .pm-button {
+    border-color: #94a3b8 !important;
+}
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .pm-input {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    color-scheme: light;
+}
+html[data-theme="light"] [class~="bg-cyan-400/10"] { background-color: #cffafe !important; }
+html[data-theme="light"] [class~="bg-emerald-400/10"] { background-color: #d1fae5 !important; }
+html[data-theme="light"] [class~="bg-rose-400/10"] { background-color: #ffe4e6 !important; }
+html[data-theme="light"] .pm-count,
+html[data-theme="light"] .pm-badge--admin { background-color: #cffafe; color: #155e75 !important; }
+html[data-theme="light"] .pm-badge--muted { background-color: #e2e8f0; color: #334155 !important; }
+html[data-theme="light"] .pm-button--secondary { background-color: #f1f5f9; color: #0f172a !important; }
+html[data-theme="light"] .pm-nav__logout { color: #0f172a; background-color: #f1f5f9; }
+html[data-theme="light"] .pm-nav__link:hover,
+html[data-theme="light"] .pm-button--secondary:hover,
+html[data-theme="light"] [class~="hover:bg-slate-800"]:hover,
+html[data-theme="light"] [class~="hover:bg-slate-900"]:hover {
+    background-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .pm-table tbody tr:hover { background-color: #f1f5f9; }
+html[data-theme="light"] .pm-error { background-color: #fff1f2; color: #9f1239; }
+html[data-theme="light"] .pm-summary-list strong { color: #0e7490; }
+html[data-theme="light"] .pm-status { color: #047857; }
+html[data-theme="light"] .pm-status--inactive { color: #be123c; }
+
+/* A global keyboard-accessible control is available on every page, including login. */
+.pm-theme-toggle {
+    position: fixed;
+    inset-inline-end: 1rem;
+    bottom: 1rem;
+    z-index: 50;
+    min-height: 2.75rem;
+    border: 2px solid #67e8f9;
+    border-radius: 999px;
+    padding: .5rem .9rem;
+    color: #f8fafc;
+    background: #164e63;
+    font: 700 .875rem/1.5 system-ui, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgb(0 0 0 / 20%);
+}
+.pm-theme-toggle:hover { background: #155e75; }
+html[data-theme="light"] .pm-theme-toggle {
+    background: #ffffff;
+    color: #155e75;
+    border-color: #155e75;
+}
+html[data-theme="light"] .pm-theme-toggle:hover { background: #cffafe; }
+@media (max-width: 520px) {
+    .pm-theme-toggle { inset-inline-end: .75rem; bottom: .75rem; }
+    .pm-shell, main { padding-bottom: 4.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pm-theme-toggle { transition: none; }
+}

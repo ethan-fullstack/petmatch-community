@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="appNavigation" class="pm-nav" aria-label="Navegación principal">
+    <div class="pm-nav__top">
+        <a th:href="@{/}" class="pm-nav__brand"><span class="pm-nav__mark" aria-hidden="true">🐾</span>PetMatch Community</a>
+        <div class="pm-nav__account" sec:authorize="isAuthenticated()">
+            <span sec:authentication="name"></span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="pm-nav__logout">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+    <div class="pm-nav__links">
+        <a th:href="@{/pets}" class="pm-nav__link">Mis mascotas</a>
+        <a th:href="@{/support-requests}" class="pm-nav__link">Solicitudes abiertas</a>
+        <a th:href="@{/support-requests/mine}" class="pm-nav__link">Mis solicitudes</a>
+        <a th:href="@{/support-applications/mine}" class="pm-nav__link">Mis postulaciones</a>
+        <div class="pm-nav__admin" sec:authorize="hasRole('ADMIN')">
+            <span class="pm-nav__admin-label">Administración</span>
+            <a th:href="@{/admin/users}" class="pm-nav__link pm-nav__link--admin">Usuarios</a>
+            <a th:href="@{/admin/reports}" class="pm-nav__link pm-nav__link--admin">Reportes</a>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

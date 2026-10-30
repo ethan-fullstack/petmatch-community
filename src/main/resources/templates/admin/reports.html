@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Reportes | PetMatch Community')}"></head>
+<body class="pm-page bg-slate-950 text-slate-100">
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<main id="main-content" tabindex="-1" class="pm-shell">
+    <nav th:replace="~{fragments/navigation :: appNavigation}"></nav>
+
+    <header class="pm-admin-header">
+        <div>
+            <span class="pm-eyebrow">Panel de administración</span>
+            <h1 class="pm-admin-title">Reportes de solicitudes</h1>
+            <p class="pm-admin-description" id="date-help">Consulta las solicitudes por estado, tipo y fechas del servicio. Ambos días del intervalo están incluidos; sin filtros se muestran todos los propietarios y estados.</p>
+        </div>
+        <span class="pm-admin-symbol" aria-hidden="true">📊</span>
+    </header>
+
+    <section class="pm-panel" aria-labelledby="filters-heading">
+        <div class="pm-panel__header">
+            <div>
+                <h2 class="pm-panel__heading" id="filters-heading">Filtros de búsqueda</h2>
+                <p class="pm-panel__subtitle">Combina criterios para consultar solicitudes</p>
+            </div>
+        </div>
+        <div class="pm-panel__body">
+            <form th:action="@{/admin/reports}" th:object="${filter}" method="get">
+                <div th:if="${#fields.hasAnyErrors()}" role="alert" class="pm-error">
+                    <strong>Revisa los filtros y el intervalo de fechas.</strong>
+                    <ul><li th:each="e : ${#fields.allErrors()}" th:text="${e}"></li></ul>
+                </div>
+                <div class="pm-filter-grid">
+                    <div class="pm-filter-field">
+                        <label class="pm-label" for="status">Estado</label>
+                        <select class="pm-input" id="status" th:field="*{status}">
+                            <option value="">Todos los estados</option>
+                            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+                        </select>
+                    </div>
+                    <div class="pm-filter-field">
+                        <label class="pm-label" for="supportType">Tipo de apoyo</label>
+                        <select class="pm-input" id="supportType" th:field="*{supportType}">
+                            <option value="">Todos los tipos</option>
+                            <option th:each="t : ${types}" th:value="${t}" th:text="${t}"></option>
+                        </select>
+                    </div>
+                    <div class="pm-filter-field">
+                        <label class="pm-label" for="grouping">Agrupar resultados por</label>
+                        <select class="pm-input" id="grouping" th:field="*{grouping}">
+                            <option th:each="g : ${groupings}" th:value="${g}" th:text="${g.name() == 'STATUS' ? 'Estado' : 'Tipo de apoyo'}"></option>
+                        </select>
+                    </div>
+                    <div class="pm-filter-field">
+                        <label class="pm-label" for="fromDate">Desde</label>
+                        <input class="pm-input" id="fromDate" type="date" th:field="*{fromDate}" aria-describedby="date-help">
+                    </div>
+                    <div class="pm-filter-field">
+                        <label class="pm-label" for="toDate">Hasta</label>
+                        <input class="pm-input" id="toDate" type="date" th:field="*{toDate}" aria-describedby="date-help">
+                    </div>
+                    <div class="pm-filter-actions">
+                        <button class="pm-button pm-button--primary" type="submit">Aplicar filtros</button>
+                        <a class="pm-button pm-button--secondary" th:href="@{/admin/reports}">Limpiar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="pm-panel" th:if="${report != null}" aria-labelledby="results-heading">
+        <div class="pm-panel__header">
+            <div>
+                <h2 class="pm-panel__heading" id="results-heading">Resultados</h2>
+                <p class="pm-panel__subtitle">Solicitudes ordenadas por fecha del servicio e ID</p>
+            </div>
+            <div class="pm-export-actions">
+                <p class="pm-results-meta">Total filtrado: <strong th:text="${report.rows.totalElements}">0</strong></p>
+                <a class="pm-button pm-button--secondary" th:href="@{/admin/reports/export/pdf(status=${filter.status},supportType=${filter.supportType},fromDate=${filter.fromDate},toDate=${filter.toDate},grouping=${filter.grouping})}">Descargar PDF</a>
+                <a class="pm-button pm-button--secondary" th:href="@{/admin/reports/export/xlsx(status=${filter.status},supportType=${filter.supportType},fromDate=${filter.fromDate},toDate=${filter.toDate},grouping=${filter.grouping})}">Descargar Excel</a>
+            </div>
+        </div>
+        <ul aria-label="Resumen agrupado" class="pm-summary-list" th:if="${!report.summary.empty}">
+            <li th:each="s : ${report.summary}">
+                <span th:text="${s.label}">Estado</span>
+                <strong th:text="${s.total}">0</strong>
+            </li>
+        </ul>
+        <div class="pm-empty" th:if="${report.rows.empty}">
+            <span class="pm-empty__icon" aria-hidden="true">🔎</span>
+            <p class="pm-empty__title">No hay solicitudes con estos filtros</p>
+            <p>Prueba con otras fechas o elimina los filtros para consultar todas las solicitudes.</p>
+        </div>
+        <div class="pm-table-wrap" th:if="${!report.rows.empty}">
+            <table class="pm-table">
+                <caption class="pm-sr-only">Solicitudes ordenadas por fecha del servicio e ID</caption>
+                <thead>
+                    <tr><th scope="col">ID</th><th scope="col">Título</th><th scope="col">Tipo</th><th scope="col">Estado</th><th scope="col">Mascota</th><th scope="col">Fecha de servicio</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="r : ${report.rows}">
+                        <td class="pm-table__secondary" th:text="${r.id}"></td>
+                        <td class="pm-table__primary" th:text="${r.title}"></td>
+                        <td th:text="${r.supportType}"></td>
+                        <td><span class="pm-badge pm-badge--muted" th:text="${r.status}"></span></td>
+                        <td th:text="${r.petName}"></td>
+                        <td th:text="${r.serviceDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Páginas de reportes" class="pm-pagination" th:if="${report.rows.totalPages > 1}">
+            <span th:text="|Página ${report.rows.number + 1} de ${report.rows.totalPages}|">Paginación</span>
+            <div class="pm-pagination__actions">
+                <a class="pm-link" th:if="${report.rows.hasPrevious()}" th:href="@{/admin/reports(page=${report.rows.number - 1},status=${filter.status},supportType=${filter.supportType},fromDate=${filter.fromDate},toDate=${filter.toDate},grouping=${filter.grouping})}">← Anterior</a>
+                <a class="pm-link" th:if="${report.rows.hasNext()}" th:href="@{/admin/reports(page=${report.rows.number + 1},status=${filter.status},supportType=${filter.supportType},fromDate=${filter.fromDate},toDate=${filter.toDate},grouping=${filter.grouping})}">Siguiente →</a>
+            </div>
+        </nav>
+    </section>
+</main>
+</body>
+</html>
